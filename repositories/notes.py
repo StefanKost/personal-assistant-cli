@@ -1,16 +1,30 @@
-from models.note import Note
+from typing import Protocol, Optional, Iterable
+from models.note import Note, Title, Tag
 
 
-class NotesRepository:
-    def __init__(self, storage):
-        self.storage = storage
-        self._notes: list[Note] = self.storage.load() or []  # should be list
+class NotesRepository(Protocol):
+    """Interface for the notes repository"""
+    def add(self, note: Note) -> None:
+        """Add a note to the repository"""
+        ...
 
-    def add(self, note):
-        pass
+    def get(self, title: Title) -> Optional[Note]:
+        """Get a note from the repository"""
+        ...
 
-    def all(self):
-        return self._notes
+    def all(self) -> Iterable[Note]:
+        """Get all notes from the repository"""
+        ...
 
-    def save(self):
-        self.storage.save(self._notes)
+    def search_by_tags(self, *tags: Tag) -> Iterable[Note]:
+        """Search for notes by tags"""
+        ...
+
+    def update(self, note: Note) -> None:
+        """Update a note in the repository"""
+        ...
+
+    def delete(self, title: Title) -> None:
+        """Delete a note from the repository"""
+        ...
+
