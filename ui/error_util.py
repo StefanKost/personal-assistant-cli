@@ -1,0 +1,14 @@
+def input_error(func):
+    def inner(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except KeyError as e:
+            return f"Error: {e}"
+        except ValueError as e:
+            return f"Error: {e}"
+        except IndexError as e:
+            return f"Error: {e}"
+        except Exception as e:
+            return f"An error occurred: {type(e).__name__}: {e}"
+
+    return inner
