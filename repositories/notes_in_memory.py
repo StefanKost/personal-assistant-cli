@@ -1,12 +1,12 @@
 from typing import Optional, Iterable, Collection
 from models.note import Note, Tag
-from repositories.notes_storage import NotesStorage
+from repositories.storage import Storage
 
 
 class NotesInMemoryRepository:
     """Repository for the notes"""
-    def __init__(self, storage: NotesStorage) -> None:
-        self.__storage: NotesStorage = storage
+    def __init__(self, storage: Storage[Note]) -> None:
+        self.__storage: Storage[Note] = storage
         self.__notes: dict[int, Note] = self.__storage.load() or []
         self.last_id = max(self.__notes, default=0)
 
@@ -41,7 +41,7 @@ class NotesInMemoryRepository:
         # is not relevant for inmemory storage,
         # relevant for DBMS (Mongo, Postgresql, etc) adapter
         ...
-        
+
     def get_next_note_id(self) -> int:
         self.last_id += 1
         return self.last_id
