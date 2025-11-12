@@ -1,7 +1,7 @@
 import shlex
 from typing import Dict, List, Tuple, Callable
 from core.app_context import AppContext
-from error_util import input_error
+from ui.error_util import input_error
 
 
 # ---------- CONTACT COMMANDS ----------
