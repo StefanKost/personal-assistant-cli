@@ -23,4 +23,3 @@ class JsonSerializer(Generic[T]):
             raise ValueError("JSON root must be an object")
 
         return {k: self.__from_dict(v) for k, v in raw.items()}
-

@@ -10,7 +10,10 @@ class FileStorage(Generic[T]):
         self.__path: Path = Path(filepath)
         self.__serializer: Serializer[T] = serializer
 
-    def load(self) -> dict[int, T]: 
+    def load(self) -> dict[int, T]:
+        if not self.__path.exists():
+            return {}
+
         data = self.__path.read_bytes()
         self.__serializer.from_bytes(data)
 

@@ -7,7 +7,7 @@ class NotesInMemoryRepository:
     """Repository for the notes"""
     def __init__(self, storage: Storage[Note]) -> None:
         self.__storage: Storage[Note] = storage
-        self.__notes: dict[int, Note] = self.__storage.load() or []
+        self.__notes: dict[int, Note] = storage.load() or []
         self.last_id = max(self.__notes, default=0)
 
     def add(self, note: Note) -> None:
