@@ -15,7 +15,7 @@ install: venv
 
 # Run PEP8 checks
 lint:
-	$(FLAKE8) --exclude $(VENV) .
+	$(FLAKE8) .
 
 # Remove venv
 clean:
