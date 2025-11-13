@@ -1,6 +1,4 @@
 from dataclasses import dataclass
-from optparse import Option
-from typing import Sequence, Optional
 
 
 @dataclass(frozen=True)
@@ -8,22 +6,31 @@ class CreateNoteReq:
     """Request to create a note"""
     title: str
     body: str
-    tags: Sequence[str] = ()
+    tags: list[str]
 
 
 @dataclass(frozen=True)
 class GetNoteReq:
     """Request to get a note"""
-    title: str
-
+    note_id: int
 
 @dataclass(frozen=True)
-class EditNoteReq:
+class EditTitleReq:
     """Request to edit a note"""
     note_id: int
-    title: Optional[str]
-    body: Optional[str]
-    tags: Optional[Sequence[str]]
+    title: str
+
+@dataclass(frozen=True)
+class EditBodyReq:
+    """Request to edit a note"""
+    note_id: int
+    body: str
+
+@dataclass(frozen=True)
+class EditTagsReq:
+    """Request to edit a note"""
+    note_id: int
+    tags: list[str]
 
 @dataclass(frozen=True)
 class FindReq:
@@ -33,10 +40,17 @@ class FindReq:
 @dataclass(frozen=True)
 class FindByTagsReq:
     """Request to find notes by tags"""
-    tags: Sequence[str] = ()
+    tags: list[str]
 
 
 @dataclass(frozen=True)
 class SortByTagsReq:
     """Request to sort notes by tags"""
-    tags: Sequence[str] = ()
+    tags: list[str]
+
+
+@dataclass(frozen=True)
+class DeleteReq:
+    """Request to sort notes by tags"""
+    note_id: int
+

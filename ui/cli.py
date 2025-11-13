@@ -30,8 +30,9 @@ def main():
         except KeyboardInterrupt:
             handle_command("exit", ctx)
             break
-        finally:  # store from memory to disk
-            notes_repository.flush()
+
+    notes_repository.flush()
+            
 
 
 if __name__ == "__main__":

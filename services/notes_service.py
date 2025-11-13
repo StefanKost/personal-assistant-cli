@@ -1,15 +1,19 @@
 from typing import Iterable, Optional
 from models.note import Note
 from models.values import Tag
-from services import (
-    IDGenerator,
+
+from services.notes_repo import NotesRepository
+from services.id_gen import IDGenerator
+from services.notes_request import (
     CreateNoteReq,
-    NotesRepository,
     GetNoteReq,
-    EditNoteReq,
+    EditTitleReq,
+    EditBodyReq,
+    EditTagsReq,
     FindReq,
     FindByTagsReq,
     SortByTagsReq,
+    DeleteReq,
 )
 
 
@@ -30,13 +34,26 @@ class NotesService:
 
     def get_note(self, req: GetNoteReq) -> Optional[Note]:
         """Get a note from the repository"""
-        return self.__repo.get(req.title)
+        return self.__repo.get(req.note_id)
 
-    def edit_note(self, req: EditNoteReq) -> Note:
-        """Edit title, body, tags of a note"""
-        note = self.__repo.get(req.title)
-        tags = self.__prepare_tags(req.tags) if req.tags is not None else None
-        note.edit_note(new_title=req.title, new_body=req.body, new_tags=tags)
+    def edit_title(self, req: EditTitleReq) -> Note:
+        note = self.__repo.get(req.note_id)
+        note.edit_note(new_title=req.title)
+        self.__repo.save(note)
+
+        return note
+
+    def edit_body(self, req: EditBodyReq) -> Note:
+        note = self.__repo.get(req.note_id)
+        note.edit_note(new_body=req.body)
+        self.__repo.save(note)
+
+        return note
+
+    def edit_tags(self, req: EditTagsReq) -> Note:
+        note = self.__repo.get(req.note_id)
+        tags = self.__prepare_tags(req.tags)
+        note.edit_note(new_tags=tags)
         self.__repo.save(note)
 
         return note
@@ -54,13 +71,19 @@ class NotesService:
         """Sort notes by tags"""
         tags = self.__prepare_tags(req.tags)
         notes = list(self.__repo.all())
-        #  Sort notes by tags and title (to make it stable)
+        #  Sort notes by tags and updated at (to make it stable)
         notes.sort(
-            key=lambda n: (n.count_matching_tags(tags), n.title.lower()),
+            key=lambda n: (n.count_matching_tags(tags), n.updated_at),
             reverse=True,
         )
 
         return notes
+
+    def all(self) -> Iterable[Note]:
+        return self.__repo.all()
+
+    def delete_note(self, req: DeleteReq) -> None:
+        self.__repo.delete(req.note_id)
 
     def __prepare_tags(self, tags: list[str]) -> set[Tag]:
         return {Tag(t) for t in tags}

@@ -15,7 +15,7 @@ class FileStorage(Generic[T]):
             return {}
 
         data = self.__path.read_bytes()
-        self.__serializer.from_bytes(data)
+        return self.__serializer.from_bytes(data)
 
     # method is not safe, feel free to update
     def save(self, items: dict[int, T]) -> None:

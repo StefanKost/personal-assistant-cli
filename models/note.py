@@ -27,23 +27,29 @@ class Note:
             f"ID: {self.__note_id}\n"
             f"Title: {self.__title}\n"
             f"Body: {self.__body}\n"
-            f"Tags: {', '.join(self.__tags)}\n"
-            f"Created at: {self.__created_at}\n"
-            f"Updated at: {self.__updated_at}"
+            f"Tags: {','.join([str(t) for t in self.__tags])}\n"
+            f"Created at: {self.__created_at:%Y-%m-%d}\n"
+            f"Updated at: {self.__updated_at:%Y-%m-%d}"
         )
 
     def preview(self) -> str:
         return (
-            f"{self.__note_id}, Title: {self.text_preview(self.__title)}\n"
-            f"{self.__updated_at} Body: {self.text_preview(self.__body)}\n"
+            f"{self.__note_id}, Title: {self.field_preview(self.__title)}\n"
+            f"{self.__updated_at:%Y-%m-%d} Body: {self.field_preview(self.__body)}\n"  # noqa
         )
 
     @property
     def note_id(self) -> int:
         return self.__note_id
 
+    @property
+    def updated_at(self) -> DateTime:
+        return self.__updated_at
+
     def contains(self, substr: str) -> bool:
-        return (substr in self.__title.value) or (substr in self.__body.value)
+        substr = substr.strip().lower()
+        return substr in self.__title.value.lower() \
+            or substr in self.__body.value.lower()
 
     def count_matching_tags(self, tags: Collection[Tag]) -> int:
         return len(self.__tags & set(tags))
@@ -70,12 +76,12 @@ class Note:
     def to_dict(self) -> dict:
         """Convert the note to a dictionary"""
         return {
-            "title": self.__title,
-            "body": self.__body,
-            "tags": list(self.__tags),
+            "title": self.__title.value,
+            "body": self.__body.value,
+            "tags": [v.value for v in self.__tags],
             "note_id": self.__note_id,
-            "created_at": self.__created_at,
-            "updated_at": self.__updated_at,
+            "created_at": self.__created_at.isoformat(),
+            "updated_at": self.__updated_at.isoformat(),
         }
 
     @classmethod
@@ -87,11 +93,11 @@ class Note:
             body=data["body"],
             tags=tags,
             note_id=data["note_id"],
-            created_at=data["created_at"],
-            updated_at=data["updated_at"],
+            created_at=DateTime.fromisoformat(data["created_at"]),
+            updated_at=DateTime.fromisoformat(data["updated_at"]),
         )
 
     @classmethod
-    def text_preview(cls, text: str) -> str:
-        return text.split("\n", 1)[0][:cls.short_text_len]
+    def field_preview(cls, field: Field) -> str:
+        return field.value.split("\n", 1)[0][:cls.short_text_len]
 

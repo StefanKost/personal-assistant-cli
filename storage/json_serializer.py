@@ -22,4 +22,4 @@ class JsonSerializer(Generic[T]):
         if not isinstance(raw, dict):
             raise ValueError("JSON root must be an object")
 
-        return {k: self.__from_dict(v) for k, v in raw.items()}
+        return {int(k): self.__from_dict(v) for k, v in raw.items()}
