@@ -85,6 +85,35 @@ def delete_address(args, ctx: AppContext):
 
     ctx.contacts.set_address(args[0], None)
 
+def find_contacts(args, ctx: AppContext):
+    if not args:
+        raise ValueError("Find command requires a search_text argument")
+
+    search = args[0]
+    contacts = ctx.contacts.find(search)
+
+    if not contacts:
+        return f"No contact name, phone, email or birthday found for this search text: {search}"
+
+    lines = ["Found contacts:"]
+    for contact in contacts:
+        lines.append(str(contact))
+
+    return "\n".join(lines)
+
+
+def all_contacts(args, ctx: AppContext):
+    contacts = ctx.contacts.all()
+
+    if not contacts:
+        return "No contacts found in the book."
+
+    lines = ["All contacts:"]
+    for contact in contacts:
+        lines.append(str(contact))
+    return "\n".join(lines)
+
+
 # ---------- NOTE COMMANDS ----------
 
 def add_note(args, ctx: AppContext):
@@ -142,7 +171,7 @@ def edit_note_tags(args, ctx: AppContext):
 
     note_id, tags = args
 
-    req = EditTagsReq(note_id=int(note_id), tags=tags.split(","),)
+    req = EditTagsReq(note_id=int(note_id), tags=tags.split(","), )
     note = ctx.notes.edit_tags(req)
 
     return note
@@ -198,9 +227,8 @@ def all_notes(args, ctx: AppContext):
 
 
 # flake8: noqa: E501
-def help_command(args, ctx: AppContext):
-    print("Welcome to the personal assistant tool!\n"
-          "Available commands:\n"
+def help_command(args, ctx: AppContext):          
+    print("Available commands:\n"
           # General commands
           "  hello                                     - Show greeting\n"
           "  help                                      - Show possible commands\n"
@@ -209,6 +237,7 @@ def help_command(args, ctx: AppContext):
           "  change <username> <old_phone> <new_phone> - Update contact's phone\n"
           "  phone <username>                          - Show contact's phone number(s)\n"
           "  all                                       - Show all contacts\n"
+          "  find <search_text>                        - Find matching contacts; use * symbol to skip exact matching\n"
           "  set-birthday <username> <DD.MM.YYYY>      - Set birthday to contact\n"
           "  show-birthday <username>                  - Show contact's birthday\n"
           "  birthdays                                 - Show upcoming birthdays within next week\n"
@@ -229,6 +258,7 @@ def help_command(args, ctx: AppContext):
           "  delete-note <note-id>                     - Delete note by note-id\n"
 
           "  close, exit                               - Exit the bot\n")
+
 
 def exit_command(ctx: AppContext):
     # TODO: save records before close
@@ -256,6 +286,8 @@ commands: Dict[str, Callable[[List[str], AppContext], str]] = {
     "delete-email": delete_email,
     "delete-birthday": delete_birthday,
     "delete-address": delete_address,
+    "find": find_contacts,
+    "all": all_contacts,
     # Note's commands
     "add-note": add_note,
     "note": get_note,

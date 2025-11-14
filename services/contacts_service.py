@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Iterable
 from repositories.contacts import ContactsRepository
 from models import Contact
 from models.values import Email, Phone, Address, Birthday
@@ -64,3 +64,11 @@ class ContactsService:
         contact = self.repo.get(name)
         contact.edit_phone(Phone(prev_phone), Phone(new_phone))
         self.repo.save()  # should it be ?
+
+    def find(self, search: str) -> Iterable[Contact]:
+        return self.repo.find(search)
+
+    def all(self) -> Iterable[Contact]:
+        return self.repo.all()
+
+    # TODO: implement other methods to deal with contacts service
