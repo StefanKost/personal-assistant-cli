@@ -28,20 +28,20 @@ class Note:
             f"Title: {self.__title}\n"
             f"Body: {self.__body}\n"
             f"Tags: {','.join([str(t) for t in self.__tags])}\n"
-            f"Created at: {self.__created_at:%Y-%m-%d}\n"
-            f"Updated at: {self.__updated_at:%Y-%m-%d}"
+            f"Created at: {self.__created_at:%d.%m.%Y}\n"
+            f"Updated at: {self.__updated_at:%d.%m.%Y}"
         )
 
     def preview(self) -> str:
         """Get a preview of the note"""
         return (
             f"{self.__note_id}, Title: {self.field_preview(self.__title)}\n"
-            f"{self.__updated_at:%Y-%m-%d} Body: {self.field_preview(self.__body)}\n"
+            f"{self.__updated_at:%d.%m.%Y} Body: {self.field_preview(self.__body)}\n"
             f"Tags: {','.join([v.value for v in self.__tags])}\n"
         )
 
     @property
-    def note_id(self) -> str:
+    def note_id(self) -> int:
         """Get the note id"""
         return self.__note_id
 
