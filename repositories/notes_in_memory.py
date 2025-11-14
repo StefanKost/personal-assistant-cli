@@ -2,11 +2,13 @@ from typing import Optional, Iterable, Collection
 from models.note import Note, Tag
 from exceptions import NotFoundError
 from repositories.storage import Storage
+from repositories.notes_repo import NotesRepository
+from services.id_gen import IDGenerator
 
 _sentinel = object()
 
 
-class NotesInMemoryRepository:
+class NotesInMemoryRepository(NotesRepository, IDGenerator):
     """Inmemory repository for the notes"""
     def __init__(self, storage: Storage[int, Note]) -> None:
         self.__storage: Storage[int, Note] = storage
@@ -52,7 +54,7 @@ class NotesInMemoryRepository:
         # relevant for DBMS (Mongo, Postgresql, etc) adapter
         ...
 
-    def generate(self) -> str:
+    def generate(self) -> int:
         """
         Generate a new note id. In this case we use  counter, but in real cases
         it could be value returned from DB.

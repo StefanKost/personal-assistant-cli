@@ -3,14 +3,8 @@ from models.values import Field
 
 class Name(Field):
     def __init__(self, value: str):
-        normalized_value = Name.normalize(value)
-        Name.validate(normalized_value)
-        super().__init__(normalized_value)
-
-    @staticmethod
-    def normalize(value: str) -> str:
-        value = value.strip()
-        return value.capitalize()
+        Name.validate(value)
+        super().__init__(value)
 
     @staticmethod
     def validate(value: str):

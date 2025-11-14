@@ -1,6 +1,6 @@
 from typing import Optional, Iterable
 from exceptions import AlreadyExistError
-from repositories.contacts import ContactsRepository
+from repositories.contacts_repo import ContactsRepository
 from models import Contact
 from models.values import Email, Phone, Address, Birthday
 from datetime import datetime, date, timedelta
@@ -74,7 +74,6 @@ class ContactsService:
 
         phone_to_delete = Phone(phone)
         if existing_contact.del_phone(phone_to_delete):
-            self.repo.save()
             return True
         else:
             return False
@@ -85,7 +84,6 @@ class ContactsService:
             raise KeyError(f"User with name {name} does not exist")
 
         self.repo.delete(name)
-        self.repo.save()
 
     def find(self, search: str) -> Iterable[Contact]:
         return self.repo.find(search)
@@ -93,7 +91,7 @@ class ContactsService:
     def all(self) -> Iterable[Contact]:
         return self.repo.all()
 
-    def upcomming_birthdays(
+    def upcoming_birthdays(
             self, num_days: int) -> Iterable[tuple[Contact, date]]:
         contacts = self.all()
         today = date.today()
@@ -134,5 +132,3 @@ class ContactsService:
         result.sort(key=lambda item: item[1])
 
         return result
-
-    # TODO: implement other methods to deal with contacts service

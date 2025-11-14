@@ -91,7 +91,7 @@ class Contact:
         return False
 
     def __str__(self) -> str:
-        phones_str = "| ".join(p.value for p in self.phones) or "—"
+        phones_str = " | ".join(p.value for p in self.phones) or "—"
         parts = [f"Contact: {self.name.value}", f"phones: {phones_str}"]
 
         if self.email:
