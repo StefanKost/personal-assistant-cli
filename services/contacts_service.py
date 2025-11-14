@@ -50,7 +50,7 @@ class ContactsService:
         contact = self.repo.get(name)
         address = None
         if raw_address is not None:
-            address = Address(address)
+            address = Address(raw_address)
 
         contact.set_address(address)
         self.repo.save()
