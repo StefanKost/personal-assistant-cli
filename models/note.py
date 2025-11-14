@@ -33,6 +33,7 @@ class Note:
         )
 
     def preview(self) -> str:
+        """Get a preview of the note"""
         return (
             f"{self.__note_id}, Title: {self.field_preview(self.__title)}\n"
             f"{self.__updated_at:%Y-%m-%d} Body: {self.field_preview(self.__body)}\n"
@@ -41,18 +42,22 @@ class Note:
 
     @property
     def note_id(self) -> int:
+        """Get the note id"""
         return self.__note_id
 
     @property
     def updated_at(self) -> DateTime:
+        """Get the updated at date"""
         return self.__updated_at
 
     def contains(self, substr: str) -> bool:
+        """Check if the note contains a substring"""
         substr = substr.strip().lower()
         return substr in self.__title.value.lower() \
             or substr in self.__body.value.lower()
 
     def count_matching_tags(self, tags: Collection[Tag]) -> int:
+        """Count the number of matching tags"""
         return len(self.__tags & set(tags))
 
     def edit_note(
@@ -61,6 +66,7 @@ class Note:
         new_body: str = None,
         new_tags: set[Tag] = None,
     ):
+        """Edit the note"""
         if new_title is not None:
             self.__title = Title(new_title.strip())
 
@@ -100,4 +106,5 @@ class Note:
 
     @classmethod
     def field_preview(cls, field: Field) -> str:
+        """Get a preview of the field"""
         return field.value.split("\n", 1)[0][:cls.short_text_len]
