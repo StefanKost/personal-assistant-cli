@@ -61,11 +61,6 @@ class ContactsService:
         contact.edit_phone(Phone(prev_phone), Phone(new_phone))
         self.repo.save()  # should it be ?
 
-    def delete_email(self, name: str, prev_phone: str, new_phone: str) -> None:
-        contact = self.repo.get(name)
-        contact.edit_phone(Phone(prev_phone), Phone(new_phone))
-        self.repo.save()  # should it be ?
-
     def find(self, search: str) -> Iterable[Contact]:
         return self.repo.find(search)
 
