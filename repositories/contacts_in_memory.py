@@ -2,11 +2,12 @@ from typing import Iterable
 from models.contact import Contact
 from exceptions import AlreadyExistError, NotFoundError
 from repositories.storage import Storage
+from repositories.contacts_repo import ContactsRepository
 
 _sentinel = object()
 
 
-class ContactsInMemoryRepository:
+class ContactsInMemoryRepository(ContactsRepository):
     """Inmemory repository for the contacts"""
     def __init__(self, storage: Storage[str, Contact]) -> None:
         self.__storage: Storage[str, Contact] = storage

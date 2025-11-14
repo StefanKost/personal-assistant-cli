@@ -2,7 +2,7 @@ from typing import Iterable, Optional
 from models.note import Note
 from models.values import Tag
 
-from services.notes_repo import NotesRepository
+from repositories.notes_repo import NotesRepository
 from services.id_gen import IDGenerator
 from services.notes_request import (
     CreateNoteReq,
