@@ -154,7 +154,7 @@ def all_contacts(args, ctx: AppContext):
     return "\n".join(lines)
 
 
-def all_contacts_in_n_days(args, ctx: AppContext):
+def upcomming_birthdays(args, ctx: AppContext):
     if not args:
         raise ValueError("Command requires number of days as argument")
     
@@ -163,14 +163,14 @@ def all_contacts_in_n_days(args, ctx: AppContext):
     except ValueError:
         raise ValueError("Number of days must be an integer")
         
-    contacts = ctx.contacts.all_in_N_days(num_days)
+    contacts = ctx.contacts.upcomming_birthdays(num_days)
 
     if not contacts:
-        return f"No contacts found in the book for nearest [{num_days}] days"
+        return f"No upcoming birthdays in the book for nearest [{num_days}] days"
 
-    lines = [f"All contacts for nearest [{num_days}] days:"]
-    for contact in contacts:
-        lines.append(str(contact))
+    lines = [f"Upcoming birthdays for nearest [{num_days}] days:"]
+    for contact, next_birthday in contacts:
+        lines.append(f"{contact.name.value}: {next_birthday.strftime('%d.%m.%Y')}")
     return "\n".join(lines)
 
 
@@ -311,11 +311,10 @@ def help_command(args, ctx: AppContext):
           "  change <username> <old_phone> <new_phone> - Update contact's phone\n"
           "  phone <username>                          - Show contact's phone number(s)\n"
           "  all                                       - Show all contacts\n"
-          "  all_in_n_days <numbed_of_days>            - Show all contacts in N days\n"
           "  find <search_text>                        - Find matching contacts; use * symbol to skip exact matching\n"
           "  set-birthday <username> <DD.MM.YYYY>      - Set birthday to contact\n"
           "  show-birthday <username>                  - Show contact's birthday\n"
-          "  birthdays                                 - Show upcoming birthdays within next week\n"
+          "  birthdays <number_of_days>                - Show upcoming birthdays in next [num] days\n"
           "  set-email <username> <email>              - Set email to contact\n"
           "  set-address <username> <address>          - Set address to contact\n"
           "  delete-email <username>                   - Delete contact's email address\n"
@@ -365,7 +364,7 @@ commands: Dict[str, Callable[[List[str], AppContext], str]] = {
     "delete-address": delete_address,
     "find": find_contacts,
     "all": all_contacts,
-    "all_in_n_days": all_contacts_in_n_days,
+    "birthdays": upcomming_birthdays,
 
     # Note's commands
     "add-note": add_note,

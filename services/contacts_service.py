@@ -68,7 +68,8 @@ class ContactsService:
     def all(self) -> Iterable[Contact]:
         return self.repo.all()
     
-    def all_in_N_days(self, num_days: int) -> Iterable[Contact]:
+    def upcomming_birthdays(
+            self, num_days: int) -> Iterable[tuple[Contact, date]]:
         contacts = self.all()
         today = date.today()
         limit_day = today + timedelta(days=num_days)
@@ -103,8 +104,10 @@ class ContactsService:
                 next_birthday = birthday_this_year
 
             if today <= next_birthday <= limit_day:
-                result.append(contact)
+                result.append((contact, next_birthday))
         
+        result.sort(key=lambda item: item[1])
+
         return result
 
     # TODO: implement other methods to deal with contacts service
