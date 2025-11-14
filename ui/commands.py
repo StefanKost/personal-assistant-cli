@@ -154,14 +154,15 @@ def all_contacts(args, ctx: AppContext):
     return "\n".join(lines)
 
 
-def get_contacts(args, ctx: AppContext):
+def get_contact_phones(args, ctx: AppContext):
     if len(args) < 1:
         raise ValueError(
             "get contact command requires 1 arguments: username"
         )
 
     username = args[0]
-    return str(ctx.contacts.get(username))
+    contact = ctx.contacts.get(username)
+    return 'Phone: ' + ', '.join([p.value for p in contact.phones])
 
 
 def upcoming_birthdays(args, ctx: AppContext):
@@ -327,7 +328,7 @@ def all_notes(args, ctx: AppContext):
 # flake8: noqa: E501
 def help_command(args, ctx: AppContext):
     print("Available commands:\n"
-          "# General commands\n",
+          "# General commands\n"
           "  hello                                     - Show greeting\n"
           "  help                                      - Show possible commands\n"
           "  close, exit                               - Exit the bot\n"
@@ -381,7 +382,7 @@ commands: Dict[str, Callable[[List[str], AppContext], str]] = {
 
     # Contact's commands
     "add": add_contact,
-    "phone": get_contacts,
+    "phone": get_contact_phones,
     "set-email": set_email,
     "set-birthday": set_birthday,
     "show-birthday": show_birthday,
