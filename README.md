@@ -120,6 +120,7 @@ make clean
   `make clean`                            Delete the virtual environment
   -----------------------------------------------------------------------
 
+
 ## Usage
 
 Type any command in the prompt:
