@@ -1,5 +1,31 @@
 # personal-assistant-cli
-A modular command-line application for managing contacts and notes
+A command-line Personal Assistant application developed in Python.
+The tool provides a structured way to manage contacts and notes, offering a set of intuitive commands and color-styled output for improved readability.
+
+## Features
+
+### Contacts Management
+- Add contacts with multiple phone numbers.
+- Edit, search, and delete phone numbers.
+- Store and update email, birthday, and address.
+- Find contacts by partial match or pattern.
+- Show upcoming birthdays within a number of days.
+- List all contacts with color-styled output.
+
+### Notes Management
+- Create notes with title, body, and tags.
+- Search notes by text or by tags.
+- Edit title, body, or tags.
+- Sort notes by tags.
+- Delete notes.
+- Display notes in detailed or preview format.
+
+### CLI and User Experience
+- Color styled output (errors, warnings, success messages, sections, parameters).
+- Structured, colorized help command for easy navigation.
+- Centralized styling system (`ui/output_util.py`).
+- Error-handling decorator for consistent exception formatting.
+- Persistent storage using repositories (pickle or other serializers).
 
 ## Start
 ```bash
@@ -94,3 +120,90 @@ make clean
   `make clean`                            Delete the virtual environment
   -----------------------------------------------------------------------
 
+## Usage
+
+Type any command in the prompt:
+
+```
+Enter a command:
+```
+
+Examples:
+
+```
+add John 123456789
+change John 123456789 987654321
+phone John
+all
+find Jo
+set-birthday John 12.04.1990
+birthdays 7
+delete-contact John
+```
+
+Notes examples:
+
+```
+add-note Buy milk
+notes
+note 1
+edit-note-title 1 Updated title
+find-notes milk
+delete-note 1
+```
+
+To exit:
+```
+exit
+```
+
+To view help:
+```
+help
+```
+
+## Color Styling
+
+The project uses `colorama` to highlight:
+- Errors in red
+- Success messages in green
+- Warnings in yellow
+- Validation messages in magenta
+- Sections and commands in structured, readable formats
+
+Centralized styling is implemented in:
+
+```
+ui/output_util.py
+```
+
+## Error Handling
+
+All command functions are wrapped with the `input_error` decorator.  
+It handles:
+- AlreadyExistError
+- NotFoundError
+- KeyError
+- ValueError
+- IndexError
+
+Errors are formatted consistently and displayed in color.
+
+## Storage
+
+Contacts and notes are stored using repositories.  
+By default, serialization uses pickle:
+
+```
+storage/pickle_storage.py
+```
+
+Data is saved automatically on exit.
+
+## Development Notes
+
+- The application is fully modular.
+- Commands are separated from business logic.
+- Data validation is implemented at model level.
+- Each model provides formatted and color-styled output.
+- The help system is generated dynamically and styled for readability.
