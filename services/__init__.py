@@ -1,6 +1,6 @@
-from .id_gen import IDGenerator
-from .notes_service import NotesService
-from .notes_request import (
+from services.id_gen import IDGenerator
+from services.notes_service import NotesService
+from services.notes_request import (
     CreateNoteReq,
     GetNoteReq,
     EditTitleReq,

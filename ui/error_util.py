@@ -19,7 +19,7 @@ def input_error(func):
         except IndexError as e:
             return Out.error(str(e))
 
-        # except Exception as e:
-        #     return Out.error(f"{type(e).__name__}: {e}")
+        except Exception as e:
+            return Out.error(f"{type(e).__name__}: {e}")
 
     return inner
