@@ -1,5 +1,5 @@
-from .already_exist_error import AlreadyExistError
-from .not_found_error import NotFoundError
+from exceptions.already_exist_error import AlreadyExistError
+from exceptions.not_found_error import NotFoundError
 
 __all__ = [
     'AlreadyExistError',
