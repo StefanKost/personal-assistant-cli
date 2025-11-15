@@ -53,6 +53,3 @@ class FileStorage(Generic[K, T]):
                 except OSError:
                     pass
             raise e
-
-        with open(self.__path, "wb") as f:
-            f.write(data)
