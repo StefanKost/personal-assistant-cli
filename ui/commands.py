@@ -163,7 +163,8 @@ def get_contact_phones(args, ctx: AppContext):
 
     username = args[0]
     contact = ctx.contacts.get(username)
-    return f'{Out.PARAM}Phone: {Out.INFO}' + f'{Out.RESET}, {Out.INFO}'.join([p.value for p in contact.phones]) + f"{Out.RESET}"
+    return f'{Out.PARAM}Phone: {Out.INFO}' + f'{Out.RESET}, {Out.INFO}'.join(
+        [p.value for p in contact.phones]) + f"{Out.RESET}"
 
 
 def upcoming_birthdays(args, ctx: AppContext):
@@ -444,3 +445,7 @@ def handle_command(user_input: str, ctx: AppContext) -> str:
         case _:
             available = f'{Out.RESET}, {Out.COMMAND}'.join(sorted(commands.keys()) + ['close', 'exit'])
             return f"{Out.ERROR}Invalid command.{Out.RESET}\nAvailable commands: {Out.COMMAND}{available}{Out.RESET}"
+
+
+def get_available_commands():
+    return commands.keys()

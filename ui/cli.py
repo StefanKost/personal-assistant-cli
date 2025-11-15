@@ -7,13 +7,7 @@ from services import NotesService
 from ui.factory import create_notes_repo, create_contacts_repo, SerializerType
 
 from core.app_context import AppContext
-from ui.commands import handle_command
-
-try:
-    # Support arrows, command history on unix systems
-    import readline  # noqa: F401
-except ImportError:
-    pass
+from ui.commands import handle_command, get_available_commands
 
 
 def welcome_message():
@@ -29,7 +23,32 @@ def welcome_message():
     )
 
 
+def init_autocomplete(available_commands: list):
+    try:
+        # Support arrows, command history on unix systems and cmd autocomplete
+        import readline  # noqa: F401
+    except ImportError:
+        return
+
+    def completer(text, state):
+        buf = readline.get_line_buffer()
+        end = readline.get_endidx()
+        if " " in buf[:end]:
+            return None
+
+        options = [c for c in available_commands if c.startswith(text)]
+        return options[state] if state < len(options) else None
+
+    readline.set_completer(completer)
+    readline.set_completer_delims(" \t\n")
+    readline.parse_and_bind("tab: complete")
+    readline.parse_and_bind("bind ^I rl_complete")
+    readline.parse_and_bind('set completion-ignore-case on')
+
+
 def main():
+    init_autocomplete(get_available_commands())
+
     contacts_repository = create_contacts_repo("contacts", SerializerType.PICKLE)
     notes_repository = create_notes_repo("notes", SerializerType.PICKLE)
 
