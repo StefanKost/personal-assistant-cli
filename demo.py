@@ -38,7 +38,10 @@ def pause_listener():
                     print("[DEMO PAUSED]" if PAUSED else "[DEMO RESUMED]")
             time.sleep(0.1)
     except ImportError:
-        import sys, termios, tty, select  # Unix
+        import sys
+        import termios
+        import tty
+        import select  # Unix
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
         tty.setcbreak(fd)
@@ -75,7 +78,7 @@ def main():
 
     # Helper to format birthdays in the past
     def past_birthday(years_ago):
-        birth_date = datetime.now() - timedelta(days=years_ago*365)
+        birth_date = datetime.now() - timedelta(days=years_ago * 365)
         return birth_date.strftime("%d.%m.%Y")
 
     def random_phone():
@@ -84,7 +87,10 @@ def main():
         where XX is the operator code.
         """
         #
-        operator_codes = ["50", "67", "68", "73", "91", "92", "93", "94", "95", "96", "97", "98", "99"]
+        operator_codes = [
+            "50", "67", "68", "73", "91", "92",
+            "93", "94", "95", "96", "97", "98", "99"
+        ]
 
         operator = random.choice(operator_codes)
         number = random.randint(1000000, 9999999)
@@ -94,7 +100,7 @@ def main():
     # Contacts (3 contacts with phone numbers)
     # ----------------------
     contacts = [
-        ("Olena", random_phone(), 25, "12 Shevchenko St, Kyiv, Ukraine"),  # 25 years old
+        ("Olena", random_phone(), 25, "12 Shevchenko St, Kyiv, Ukraine"),
         ("Ivan", random_phone(), 30, ""),
         ("Max", random_phone(), 50, "")
     ]
@@ -112,22 +118,21 @@ def main():
 
     human_type(proc, "all")
     human_type(proc, "find olena")
-    human_type(proc, f"find *van")
-    human_type(proc, f"find *Shevchenko*")
+    human_type(proc, "find *van")
+    human_type(proc, "find *Shevchenko*")
 
     human_type(proc, f"delete-phone {contacts[0][0]} {contacts[0][1]}")
-    human_type(proc, f"delete-email Ivan")
+    human_type(proc, "delete-email Ivan")
     human_type(proc, "set-email Ivan incorrect-email")
-    human_type(proc, f"delete-birthday Max")
-    human_type(proc, f"delete-address Olena")
-
+    human_type(proc, "delete-birthday Max")
+    human_type(proc, "delete-address Olena")
 
     # ----------------------
     # Upcoming birthdays (e.g., in 7 days)
     # ----------------------
     human_type(proc, "birthdays 7")
 
-    human_type(proc, f"delete-contact Olena")
+    human_type(proc, "delete-contact Olena")
     human_type(proc, "all")
 
     # ----------------------
@@ -147,12 +152,12 @@ def main():
             human_type(proc, f"edit-note-body {idx} {body} (updated)")
             human_type(proc, f"edit-note-tags {idx} {tags + ',updated'}")
 
-    human_type(proc, f"find-notes milk")
-    human_type(proc, f"find-notes-tags personal,work")
-    human_type(proc, f"sort-notes-tags health,important")
+    human_type(proc, "find-notes milk")
+    human_type(proc, "find-notes-tags personal,work")
+    human_type(proc, "sort-notes-tags health,important")
 
-    human_type(proc, f"delete-note 1")
-    human_type(proc, f"notes")
+    human_type(proc, "delete-note 1")
+    human_type(proc, "notes")
 
     human_type(proc, "exit")
 

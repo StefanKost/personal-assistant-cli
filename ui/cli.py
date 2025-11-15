@@ -53,8 +53,14 @@ def main():
     is_demo = "--demo" in sys.argv
     storage_dir = "demo/" if is_demo else ""
 
-    contacts_repository = create_contacts_repo(f"{storage_dir}contacts", SerializerType.PICKLE)
-    notes_repository = create_notes_repo(f"{storage_dir}notes", SerializerType.PICKLE)
+    contacts_repository = create_contacts_repo(
+        f"{storage_dir}contacts",
+        SerializerType.PICKLE
+    )
+    notes_repository = create_notes_repo(
+        f"{storage_dir}notes",
+        SerializerType.PICKLE
+    )
 
     ctx = AppContext(
         ContactsService(contacts_repository),
