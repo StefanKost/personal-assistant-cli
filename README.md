@@ -118,7 +118,7 @@ make clean
                                           checks
 
   `make clean`                            Delete the virtual environment
-  -----------------------------------------------------------------------
+
 
 
 ## Usage
