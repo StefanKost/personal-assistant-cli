@@ -138,7 +138,7 @@ def find_contacts(args, ctx: AppContext):
 
     lines = [Out.section("> FOUND CONTACTS <")]
     for contact in contacts:
-        lines.append(str(contact))
+        lines.append(Out.contact(contact))
 
     return "\n\n".join(lines)
 
@@ -151,7 +151,7 @@ def all_contacts(args, ctx: AppContext):
 
     lines = [Out.section("> ALL CONTACTS <")]
     for contact in contacts:
-        lines.append(str(contact))
+        lines.append(Out.contact(contact))
     return "\n\n".join(lines)
 
 
@@ -225,7 +225,7 @@ def add_note(args, ctx: AppContext):
     )
     note = ctx.notes.add_note(req)
 
-    return note
+    return Out.note(note)
 
 
 def get_note(args, ctx: AppContext):
@@ -236,7 +236,7 @@ def get_note(args, ctx: AppContext):
     req = GetNoteReq(note_id=note_id)
     note = ctx.notes.get_note(req)
 
-    return note
+    return Out.note(note)
 
 
 def edit_note_title(args, ctx: AppContext):
@@ -248,7 +248,7 @@ def edit_note_title(args, ctx: AppContext):
     req = EditTitleReq(note_id=note_id, title=title)
     note = ctx.notes.edit_title(req)
 
-    return note
+    return Out.note(note)
 
 
 def edit_note_body(args, ctx: AppContext):
@@ -261,7 +261,7 @@ def edit_note_body(args, ctx: AppContext):
     req = EditBodyReq(note_id=note_id, body=body.replace(r"\n", "\n"))
     note = ctx.notes.edit_body(req)
 
-    return note
+    return Out.note(note)
 
 
 def edit_note_tags(args, ctx: AppContext):
@@ -274,7 +274,7 @@ def edit_note_tags(args, ctx: AppContext):
     req = EditTagsReq(note_id=int(note_id), tags=tags.split(","), )
     note = ctx.notes.edit_tags(req)
 
-    return note
+    return Out.note(note)
 
 
 def find_notes(args, ctx: AppContext):
@@ -286,7 +286,7 @@ def find_notes(args, ctx: AppContext):
     req = FindReq(query=query)
     notes = ctx.notes.find(req)
 
-    return '\n'.join([n.preview() for n in notes])
+    return '\n'.join([Out.note_preview(n) for n in notes])
 
 
 def find_notes_by_tags(args, ctx: AppContext):
@@ -297,7 +297,7 @@ def find_notes_by_tags(args, ctx: AppContext):
     req = FindByTagsReq(tags=tags.split(","))
     notes = ctx.notes.find_by_tags(req)
 
-    return '\n'.join([n.preview() for n in notes])
+    return '\n'.join([Out.note_preview(n) for n in notes])
 
 
 def sort_notes_by_tags(args, ctx: AppContext):
@@ -308,7 +308,7 @@ def sort_notes_by_tags(args, ctx: AppContext):
     req = SortByTagsReq(tags=tags.split(","))
     notes = ctx.notes.sort_by_tags(req)
 
-    return '\n'.join([n.preview() for n in notes])
+    return '\n'.join([Out.note_preview(n) for n in notes])
 
 
 def delete_note(args, ctx: AppContext):
@@ -324,7 +324,7 @@ def delete_note(args, ctx: AppContext):
 def all_notes(args, ctx: AppContext):
     notes = ctx.notes.all()
 
-    return '\n'.join([n.preview() for n in notes])
+    return '\n'.join([Out.note_preview(n) for n in notes])
 
 
 # ---------- SYSTEM COMMANDS ----------
