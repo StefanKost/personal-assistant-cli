@@ -42,9 +42,16 @@ def init_autocomplete(available_commands: list):
 
     readline.set_completer(completer)
     readline.set_completer_delims(" \t\n")
-    readline.parse_and_bind("tab: complete")
-    readline.parse_and_bind("bind ^I rl_complete")
     readline.parse_and_bind('set completion-ignore-case on')
+
+    # Handle tab completion based on readline implementation
+    # Check if using libedit (macOS) or GNU readline (Linux)
+    if readline.__doc__ and 'libedit' in readline.__doc__:
+        # macOS libedit syntax
+        readline.parse_and_bind("bind ^I rl_complete")
+    else:
+        # GNU readline syntax (Linux)
+        readline.parse_and_bind("tab: complete")
 
 
 def main():
