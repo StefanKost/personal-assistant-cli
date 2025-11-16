@@ -1,12 +1,10 @@
 import math
 import sys
+
 from services.contacts_service import ContactsService
-
 from ui.output_util import Out
-
 from services import NotesService
 from ui.factory import create_notes_repo, create_contacts_repo, SerializerType
-
 from core.app_context import AppContext
 from ui.commands import handle_command, get_available_commands
 

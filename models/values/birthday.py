@@ -1,6 +1,7 @@
-from models.values import Field
-from datetime import datetime, date
 import re
+from datetime import datetime, date
+
+from models.values import Field
 
 
 class Birthday(Field):

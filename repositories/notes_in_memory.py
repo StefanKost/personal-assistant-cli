@@ -1,4 +1,5 @@
 from typing import Optional, Iterable, Collection
+
 from models.note import Note, Tag
 from exceptions import NotFoundError
 from repositories.storage import Storage

@@ -1,8 +1,9 @@
 from typing import TypeVar, Generic
-from storage.serializer import Serializer
 from pathlib import Path
 import os
 import tempfile
+
+from storage.serializer import Serializer
 
 K = TypeVar("K")
 T = TypeVar("T")

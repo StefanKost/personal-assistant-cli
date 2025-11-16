@@ -1,9 +1,10 @@
 from typing import Optional, Iterable
+from datetime import datetime, date, timedelta
+
 from exceptions import AlreadyExistError
 from repositories.contacts_repo import ContactsRepository
 from models import Contact
 from models.values import Email, Phone, Address, Birthday
-from datetime import datetime, date, timedelta
 
 
 class ContactsService:

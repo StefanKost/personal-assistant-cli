@@ -1,5 +1,6 @@
 from typing import Generic, TypeVar, Callable
 import json
+
 from storage.serializer import Serializer
 
 K = TypeVar("K")

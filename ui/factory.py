@@ -1,4 +1,5 @@
 from enum import Enum
+
 from repositories import NotesInMemoryRepository, ContactsInMemoryRepository
 from storage import FileStorage, JsonSerializer, PickleSerializer
 from models import Note, Contact

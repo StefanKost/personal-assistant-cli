@@ -1,4 +1,5 @@
 from typing import Iterable, Protocol
+
 from models.contact import Contact
 
 

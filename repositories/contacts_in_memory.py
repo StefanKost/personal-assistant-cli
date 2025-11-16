@@ -1,4 +1,5 @@
 from typing import Iterable
+
 from models.contact import Contact
 from exceptions import AlreadyExistError, NotFoundError
 from repositories.storage import Storage
