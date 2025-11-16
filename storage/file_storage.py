@@ -1,8 +1,9 @@
 from typing import TypeVar, Generic
-from storage.serializer import Serializer
 from pathlib import Path
 import os
 import tempfile
+
+from storage.serializer import Serializer
 
 K = TypeVar("K")
 T = TypeVar("T")
@@ -12,7 +13,9 @@ HOME_DIR = str(Path.home() / APP_DIR)
 
 
 class FileStorage(Generic[K, T]):
+    """File-based storage for items with serialization."""
     def __init__(self, filename: str, serializer: Serializer[K, T], use_home_dir=True):
+        """Initialize the file storage."""
         filepath = f"{filename}.{ext}" if (ext := serializer.extension()) else filename
         if use_home_dir and filepath.startswith('/'):
             raise ValueError("Absolute paths are not allowed when use_home_dir=True")
@@ -24,6 +27,7 @@ class FileStorage(Generic[K, T]):
         self.__serializer: Serializer[T] = serializer
 
     def load(self) -> dict[K, T]:
+        """Load items from the storage file."""
         if not self.__path.exists():
             return {}
 
@@ -31,6 +35,7 @@ class FileStorage(Generic[K, T]):
         return self.__serializer.from_bytes(data)
 
     def save(self, items: dict[K, T]) -> None:
+        """Save items to the storage file."""
         data = self.__serializer.to_bytes(items)
 
         tmp_file = None

@@ -1,4 +1,5 @@
 from typing import Optional, Iterable, Protocol, Collection
+
 from models.note import Note, Tag
 
 
