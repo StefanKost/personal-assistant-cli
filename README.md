@@ -83,6 +83,44 @@ make install
 
 This installs all required packages into the virtual environment.
 
+## 📦 Install as Python Package
+
+To install the package system-wide or in your virtual environment so you can call it from anywhere:
+
+### Install in Development Mode (Recommended)
+
+```bash
+pip install -e .
+```
+
+This installs the package in "editable" mode, meaning changes to the source code are immediately reflected without reinstalling.
+
+### Install in Production Mode
+
+```bash
+pip install .
+```
+
+### After Installation
+
+Once installed, you can run the CLI from anywhere using:
+
+```bash
+personal-assistant
+```
+
+Or use the shorter alias:
+
+```bash
+pa
+```
+
+You can also use the `--demo` flag:
+
+```bash
+personal-assistant --demo
+```
+
 ## 🧹 Code Style Check (PEP8)
 
 To check the project for PEP8 violations using `flake8`:
@@ -117,7 +155,15 @@ make clean
   `make clean`                            Delete the virtual environment
 
 ## Start CLI assistant
-Run the main command-line interface:
+
+### Option 1: Using the installed command (after installation)
+```bash
+personal-assistant
+# or
+pa
+```
+
+### Option 2: Running directly from source
 ```bash
 python main.py
 ```
